@@ -22,3 +22,16 @@ def test_parse_transactions():
     assert summary['gst_collected'] == 10
     assert summary['gst_paid'] == 5
     assert summary['gst_net'] == 5
+
+
+def test_parse_transactions_case_insensitive_and_no_gst():
+    data = """Date,Description,Amount,Category
+2024-01-01,Fee,100,INCOME
+2024-01-02,Rent,50,Expense
+"""
+    summary = parse_transactions(io.StringIO(data))
+    assert summary['income'] == 100
+    assert summary['expenses'] == 50
+    assert summary['gst_collected'] == 0
+    assert summary['gst_paid'] == 0
+    assert summary['gst_net'] == 0
