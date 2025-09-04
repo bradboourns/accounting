@@ -12,7 +12,20 @@ def parse_transactions(file_stream):
     - category should be one of income, expense, asset, liability
     """
     df = pd.read_csv(file_stream)
-    df['category'] = df['category'].str.lower()
+    # Normalise column names to handle different capitalisation and spacing
+    df.columns = df.columns.str.strip().str.lower()
+
+    # Ensure required columns are present
+    required = {"date", "description", "amount", "category"}
+    missing = required - set(df.columns)
+    if missing:
+        raise KeyError(f"Missing required column(s): {', '.join(sorted(missing))}")
+
+    # GST column is optional; default to zero if not provided
+    if 'gst' not in df.columns:
+        df['gst'] = 0
+
+    df['category'] = df['category'].astype(str).str.lower()
     df['amount'] = pd.to_numeric(df['amount'], errors='coerce').fillna(0)
     df['gst'] = pd.to_numeric(df['gst'], errors='coerce').fillna(0)
 
