@@ -1,0 +1,8 @@
+<!doctype html>
+<title>Accounting Dashboard</title>
+<h1>Upload Transactions CSV</h1>
+<form method="post" enctype="multipart/form-data">
+  <input type="file" name="file" accept="text/csv">
+  <input type="submit" value="Upload">
+</form>
+<p>The CSV must contain columns: <code>date, description, amount, category, gst</code>.</p>
