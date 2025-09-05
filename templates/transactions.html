@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <title>Transactions</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+  <h1 class="mb-4">Transactions</h1>
+  <form class="row g-3 mb-4" method="get">
+    <div class="col-md-3">
+      <label class="form-label">Financial Year</label>
+      <input type="number" class="form-control" name="financial_year" value="{{ financial_year or '' }}" placeholder="2024">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">BAS Period</label>
+      <select class="form-select" name="bas_period">
+        <option value="">--</option>
+        {% for period in ['Q1','Q2','Q3','Q4'] %}
+        <option value="{{ period }}" {% if bas_period==period %}selected{% endif %}>{{ period }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2 align-self-end">
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+  </form>
+  <div class="table-responsive">{{ table | safe }}</div>
+  <a class="btn btn-link" href="/summary?financial_year={{ financial_year }}&bas_period={{ bas_period }}">Back to Summary</a>
+</body>
+</html>

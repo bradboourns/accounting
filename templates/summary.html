@@ -1,15 +1,64 @@
 <!doctype html>
-<title>Accounting Summary</title>
-<h1>Accounting Summary</h1>
-<h2>Profit and Loss</h2>
-<p>Income: {{ summary.income }}</p>
-<p>Expenses: {{ summary.expenses }}</p>
-<p>Profit/Loss: {{ summary.profit_loss }}</p>
-<h2>Balance Sheet</h2>
-<p>Assets: {{ summary.assets }}</p>
-<p>Liabilities: {{ summary.liabilities }}</p>
-<h2>GST Summary</h2>
-<p>GST Collected: {{ summary.gst_collected }}</p>
-<p>GST Paid: {{ summary.gst_paid }}</p>
-<p>Net GST: {{ summary.gst_net }}</p>
-<a href="/">Upload another file</a>
+<html>
+<head>
+  <title>Accounting Summary</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+  <h1 class="mb-4">Accounting Summary</h1>
+  <form class="row g-3 mb-4" method="get">
+    <div class="col-md-3">
+      <label class="form-label">Financial Year</label>
+      <input type="number" class="form-control" name="financial_year" value="{{ financial_year or '' }}" placeholder="2024">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">BAS Period</label>
+      <select class="form-select" name="bas_period">
+        <option value="">--</option>
+        {% for period in ['Q1','Q2','Q3','Q4'] %}
+        <option value="{{ period }}" {% if bas_period==period %}selected{% endif %}>{{ period }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2 align-self-end">
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+  </form>
+
+  <div class="row mb-4">
+    <div class="col-md-4 mb-3">
+      <div class="card text-bg-light"><div class="card-body"><h5 class="card-title">Income</h5><p class="card-text">{{ summary.income }}</p></div></div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card text-bg-light"><div class="card-body"><h5 class="card-title">Expenses</h5><p class="card-text">{{ summary.expenses }}</p></div></div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card text-bg-light"><div class="card-body"><h5 class="card-title">Profit/Loss</h5><p class="card-text">{{ summary.profit_loss }}</p></div></div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-4 mb-3">
+      <div class="card text-bg-light"><div class="card-body"><h5 class="card-title">Assets</h5><p class="card-text">{{ summary.assets }}</p></div></div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card text-bg-light"><div class="card-body"><h5 class="card-title">Liabilities</h5><p class="card-text">{{ summary.liabilities }}</p></div></div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-4 mb-3">
+      <div class="card text-bg-light"><div class="card-body"><h5 class="card-title">GST Collected</h5><p class="card-text">{{ summary.gst_collected }}</p></div></div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card text-bg-light"><div class="card-body"><h5 class="card-title">GST Paid</h5><p class="card-text">{{ summary.gst_paid }}</p></div></div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card text-bg-light"><div class="card-body"><h5 class="card-title">Net GST</h5><p class="card-text">{{ summary.gst_net }}</p></div></div>
+    </div>
+  </div>
+
+  <a class="btn btn-secondary" href="/transactions?financial_year={{ financial_year }}&bas_period={{ bas_period }}">View Transactions</a>
+  <a class="btn btn-link" href="/">Upload another file</a>
+</body>
+</html>
