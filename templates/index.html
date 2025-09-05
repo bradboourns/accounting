@@ -1,8 +1,22 @@
 <!doctype html>
-<title>Accounting Dashboard</title>
-<h1>Upload Transactions CSV</h1>
-<form method="post" enctype="multipart/form-data">
-  <input type="file" name="file" accept="text/csv">
-  <input type="submit" value="Upload">
-</form>
-<p>The CSV must contain columns: <code>date, description, amount, category, gst</code>.</p>
+<html>
+<head>
+  <title>Accounting Dashboard</title>
+  <style>
+    body {font-family: Arial, sans-serif; margin: 40px;}
+    .upload-box {max-width: 400px; margin: auto; padding: 40px; border: 1px solid #ccc; border-radius: 8px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
+    input[type="file"] {margin: 20px 0;}
+    input[type="submit"] {padding: 8px 16px;}
+  </style>
+</head>
+<body>
+  <div class="upload-box">
+    <h1>Upload Transactions CSV</h1>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept="text/csv" required>
+      <div><input type="submit" value="Upload"></div>
+    </form>
+    <p>The CSV must contain columns: <code>date, description, amount, category, gst</code>.</p>
+  </div>
+</body>
+</html>

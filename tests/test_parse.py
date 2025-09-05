@@ -1,9 +1,10 @@
 import io
 import os
 import sys
+import pandas as pd
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from app import parse_transactions
+from app import parse_transactions, load_transactions, compute_summary
 
 
 def test_parse_transactions():
@@ -35,3 +36,16 @@ def test_parse_transactions_case_insensitive_and_no_gst():
     assert summary['gst_collected'] == 0
     assert summary['gst_paid'] == 0
     assert summary['gst_net'] == 0
+
+
+def test_compute_summary_with_date_filter():
+    data = """date,description,amount,category,gst
+2024-07-01,Sale,100,income,10
+2024-08-01,Rent,50,expense,5
+2025-01-15,Sale2,200,income,20
+"""
+    df = load_transactions(io.StringIO(data))
+    summary_full = compute_summary(df)
+    summary_q1 = compute_summary(df, start_date=pd.Timestamp(2024, 7, 1), end_date=pd.Timestamp(2024, 9, 30))
+    assert summary_full['income'] == 300
+    assert summary_q1['income'] == 100
