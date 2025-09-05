@@ -1,15 +1,62 @@
 <!doctype html>
-<title>Accounting Summary</title>
-<h1>Accounting Summary</h1>
-<h2>Profit and Loss</h2>
-<p>Income: {{ summary.income }}</p>
-<p>Expenses: {{ summary.expenses }}</p>
-<p>Profit/Loss: {{ summary.profit_loss }}</p>
-<h2>Balance Sheet</h2>
-<p>Assets: {{ summary.assets }}</p>
-<p>Liabilities: {{ summary.liabilities }}</p>
-<h2>GST Summary</h2>
-<p>GST Collected: {{ summary.gst_collected }}</p>
-<p>GST Paid: {{ summary.gst_paid }}</p>
-<p>Net GST: {{ summary.gst_net }}</p>
-<a href="/">Upload another file</a>
+<html>
+<head>
+  <title>Accounting Summary</title>
+  <style>
+    body {font-family: Arial, sans-serif; margin: 20px 40px;}
+    .tiles {display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;}
+    .tile {flex: 1 1 200px; background: #f5f5f5; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
+    .tile h3 {margin-top: 0;}
+    table {border-collapse: collapse; width: 100%;}
+    th, td {border: 1px solid #ddd; padding: 8px; text-align: left;}
+    th {background-color: #f2f2f2;}
+    form.filter {margin-bottom: 20px;}
+    form.filter input, form.filter select {margin-right: 10px;}
+  </style>
+</head>
+<body>
+  <h1>Accounting Summary</h1>
+
+  <form class="filter" method="get">
+    <label>Financial Year: <input type="number" name="year" value="{{ request.args.get('year', '') }}" placeholder="2024"></label>
+    <label>BAS Quarter:
+      <select name="bas">
+        <option value="">All</option>
+        <option value="1" {% if request.args.get('bas') == '1' %}selected{% endif %}>Q1 (Jul-Sep)</option>
+        <option value="2" {% if request.args.get('bas') == '2' %}selected{% endif %}>Q2 (Oct-Dec)</option>
+        <option value="3" {% if request.args.get('bas') == '3' %}selected{% endif %}>Q3 (Jan-Mar)</option>
+        <option value="4" {% if request.args.get('bas') == '4' %}selected{% endif %}>Q4 (Apr-Jun)</option>
+      </select>
+    </label>
+    <button type="submit">Filter</button>
+  </form>
+
+  <div class="tiles">
+    <div class="tile"><h3>Income</h3><p>{{ summary.income }}</p></div>
+    <div class="tile"><h3>Expenses</h3><p>{{ summary.expenses }}</p></div>
+    <div class="tile"><h3>Profit / Loss</h3><p>{{ summary.profit_loss }}</p></div>
+    <div class="tile"><h3>Assets</h3><p>{{ summary.assets }}</p></div>
+    <div class="tile"><h3>Liabilities</h3><p>{{ summary.liabilities }}</p></div>
+    <div class="tile"><h3>GST Collected</h3><p>{{ summary.gst_collected }}</p></div>
+    <div class="tile"><h3>GST Paid</h3><p>{{ summary.gst_paid }}</p></div>
+    <div class="tile"><h3>Net GST</h3><p>{{ summary.gst_net }}</p></div>
+  </div>
+
+  <h2>Transactions</h2>
+  <table>
+    <tr><th>Date</th><th>Description</th><th>Amount</th><th>Category</th><th>GST</th></tr>
+    {% for t in transactions %}
+    <tr>
+      <td>{{ t.date.date() }}</td>
+      <td>{{ t.description }}</td>
+      <td>{{ t.amount }}</td>
+      <td>{{ t.category }}</td>
+      <td>{{ t.gst }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="/">Upload another file</a></p>
+</body>
+</html>
+
