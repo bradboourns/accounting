@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Simunsen Mortgage Broking Summary</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+  </head>
+  <body class="container py-5">
+    <h1 class="mb-4">Accounting Summary</h1>
+
+    <h2>Profit and Loss</h2>
+    <ul class="list-group mb-3">
+      <li class="list-group-item">Income: {{ summary.income }}</li>
+      <li class="list-group-item">Expenses: {{ summary.expenses }}</li>
+      <li class="list-group-item">Profit/Loss: {{ summary.profit_loss }}</li>
+    </ul>
+
+    <h2>Balance Sheet</h2>
+    <ul class="list-group mb-3">
+      <li class="list-group-item">Assets: {{ summary.assets }}</li>
+      <li class="list-group-item">Liabilities: {{ summary.liabilities }}</li>
+    </ul>
+
+    <h2>GST Summary</h2>
+    <ul class="list-group mb-4">
+      <li class="list-group-item">GST Collected: {{ summary.gst_collected }}</li>
+      <li class="list-group-item">GST Paid: {{ summary.gst_paid }}</li>
+      <li class="list-group-item">Net GST: {{ summary.gst_net }}</li>
+    </ul>
+
+    <a href="/" class="btn btn-secondary">Upload another file</a>
+  </body>
+</html>
+
